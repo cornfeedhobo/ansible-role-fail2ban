@@ -15,7 +15,7 @@
   tags: ["fail2ban", "fail2ban-install"]
 
 
-- name: Configure jail.d/*.conf
+- name: "Configure jail.d/*.conf"
   become: true
   template:
     src: "jails.conf.j2"
@@ -31,7 +31,7 @@
   tags: ["fail2ban", "fail2ban-configure"]
 
 
-- name: Manage fail2ban service
+- name: "Manage fail2ban service"
   become: true
   service:
     name: "{{ fail2ban_service_name }}"
