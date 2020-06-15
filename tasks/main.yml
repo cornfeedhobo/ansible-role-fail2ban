@@ -19,7 +19,7 @@
   become: true
   template:
     src: "jails.conf.j2"
-    dest: "/etc/fail2ban/jail.d/{{ item.keys()[0] }}.conf"
+    dest: "/etc/fail2ban/jail.d/{{ item.keys() | list | first }}.conf"
     owner: "root"
     group: "root"
     mode: "0644"
