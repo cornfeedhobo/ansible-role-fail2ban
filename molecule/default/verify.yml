@@ -1,0 +1,33 @@
+---
+- name: "Verify"
+  hosts: "all"
+  gather_facts: false
+  tasks:
+    -
+      name: "Copy filter.d test cases in check mode"
+      ansible.builtin.copy:
+        src: "files/filter.d/"
+        dest: "/etc/fail2ban/filter.d/"
+        mode: "0644"
+      check_mode: true
+      diff: true
+      register: "filters"
+    -
+      name: "Assert that the filters match the test cases"
+      ansible.builtin.assert:
+        that:
+          - "not filters.changed"
+    -
+      name: "Copy jail.d test cases in check mode"
+      ansible.builtin.copy:
+        src: "files/jail.d/"
+        dest: "/etc/fail2ban/jail.d/"
+        mode: "0644"
+      check_mode: true
+      diff: true
+      register: "jails"
+    -
+      name: "Assert that the jails match the test cases"
+      ansible.builtin.assert:
+        that:
+          - "not jails.changed"

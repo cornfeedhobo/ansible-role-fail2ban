@@ -1,24 +1,24 @@
----
 galaxy_info:
-  role_name: "fail2ban"
   author: "cornfeedhobo"
-  description: "Install and configure fail2ban"
+  namespace: "cornfeedhobo"
+  role_name: "fail2ban"
+  description: "install, configure, and manage fail2ban"
+  issue_tracker_url: "http://github.com/cornfeedhobo/ansible-role-fail2ban/issues"
   license: "MIT"
-  min_ansible_version: 2.5
+  galaxy_tags: ["fail2ban", "network", "networking", "security"]
+  min_ansible_version: "2.5"
   platforms:
-    - name: "EL"
+    -
+      name: "EL"
       versions:
-        - 7
-  galaxy_tags:
-    - "fail2ban"
-    - "network"
-    - "networking"
-    - "security"
+        - "all"
+    -
+      name: "Fedora"
+      versions:
+        - "all"
+    -
+      name: "Ubuntu"
+      versions:
+        - "all"
 
-
-dependencies:
-  - role: "cornfeedhobo.epel"
-    tags: ["fail2ban", "fail2ban-install"]
-
-  - role: "jtyr.config_encoder_filters"
-    tags: ["fail2ban", "fail2ban-configure"]
+dependencies: []

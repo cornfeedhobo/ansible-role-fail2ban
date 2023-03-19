@@ -1,17 +1,21 @@
 ---
 
-fail2ban_install: false
+fail2ban_install: true
+fail2ban_packages: ["fail2ban"]
 fail2ban_package_state: "present"
-fail2ban_packages: "{{ __fail2ban_packages }}"
 
-fail2ban_service: false
-fail2ban_service_name: "{{ __fail2ban_service_name }}"
+fail2ban_configure: true
+fail2ban_filters: {}
+  # name:
+  #   before: []
+  #   after: []
+  #   failregex: []
+  #   ignoreregex: []
+fail2ban_jails: {}
+  # name:
+  #   key: value
+
+fail2ban_service: true
+fail2ban_service_name: "fail2ban"
 fail2ban_service_state: "started"
 fail2ban_service_enabled: true
-
-fail2ban_configure: false
-
-fail2ban_jails:
-  - sshd:
-      enabled: true
-      port: "ssh"

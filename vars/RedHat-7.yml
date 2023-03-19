@@ -1,5 +1,0 @@
----
-
-__fail2ban_packages: ['fail2ban']
-
-__fail2ban_service_name: "fail2ban"

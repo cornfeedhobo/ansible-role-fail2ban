@@ -1,0 +1,6 @@
+ansible
+docker
+molecule
+molecule["docker"]
+molecule["lint"]
+selinux-please-lie-to-me

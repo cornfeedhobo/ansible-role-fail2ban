@@ -1,0 +1,49 @@
+{% set config = dict(before=[],after=[],init={},failregex=[],ignoreregex=[]) | combine(item.value) -%}
+
+# {{ ansible_managed }}
+
+{% if config.before | length > 0 or config.after | length > 0 -%}
+[INCLUDES]
+
+{% if config.before | length > 0 -%}
+before = {{ config.before | join(' ') }}
+
+{% endif -%}
+{% if config.after | length > 0 -%}
+after = {{ config.after | join(' ') }}
+
+{% endif -%}
+{% endif -%}
+
+{% if config.init | length > 0 -%}
+[Init]
+
+{% for key, value in config.init.items() %}
+{{ key }} = {{ value }}
+
+{% endfor %}
+{% endif -%}
+
+[Definition]
+
+{% if config.failregex | length == 0 %}
+failregex =
+{% else %}
+failregex = {{ config.failregex.0 | default('') }}
+{% if config.failregex | length > 1 -%}
+{% for line in config.failregex[1:] %}
+            {{ line }}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+{% if config.ignoreregex | length == 0 %}
+ignoreregex =
+{% else %}
+ignoreregex = {{ config.ignoreregex.0 | default('') }}
+{% if config.ignoreregex | length > 1 -%}
+{% for line in config.ignoreregex[1:] %}
+              {{ line }}
+{% endfor %}
+{% endif %}
+{% endif %}

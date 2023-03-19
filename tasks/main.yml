@@ -1,41 +1,47 @@
 ---
 
-- name: "Include OS-specific variables"
-  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
-  tags: ["fail2ban", "fail2ban-install", "fail2ban-configure", "fail2ban-service"]
-
-
 - name: "Manage fail2ban package(s)"
   become: true
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
     state: "{{ fail2ban_package_state }}"
-  with_items: "{{ fail2ban_packages }}"
-  when: "fail2ban_install"
+  loop: "{{ fail2ban_packages | list }}"
   tags: ["fail2ban", "fail2ban-install"]
+
+
+- name: "Configure filter.d/*.conf"
+  become: true
+  ansible.builtin.template:
+    src: "filter.conf.j2"
+    dest: "/etc/fail2ban/filter.d/{{ item.key }}.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  loop: "{{ fail2ban_filters | dict2items }}"
+  when: ["fail2ban_filters is defined and fail2ban_filters | length > 0"]
+  notify: ["Restart fail2ban"]
+  tags: ["fail2ban", "fail2ban-configure"]
 
 
 - name: "Configure jail.d/*.conf"
   become: true
-  template:
-    src: "jails.conf.j2"
-    dest: "/etc/fail2ban/jail.d/{{ item.keys() | list | first }}.conf"
+  ansible.builtin.template:
+    src: "jail.conf.j2"
+    dest: "/etc/fail2ban/jail.d/{{ item.key }}.conf"
     owner: "root"
     group: "root"
     mode: "0644"
-  with_items: "{{ fail2ban_jails | list }}"
-  when:
-    - "fail2ban_configure"
-    - "fail2ban_jails is defined and fail2ban_jails | length > 0"
-  notify: ["restart fail2ban"]
+  loop: "{{ fail2ban_jails | dict2items }}"
+  when: ["fail2ban_filters is defined and fail2ban_filters | length > 0"]
+  notify: ["Restart fail2ban"]
   tags: ["fail2ban", "fail2ban-configure"]
 
 
 - name: "Manage fail2ban service"
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ fail2ban_service_name }}"
     state: "{{ fail2ban_service_state }}"
     enabled: "{{ fail2ban_service_enabled }}"
-  when: "fail2ban_service"
+  when: ["fail2ban_service"]
   tags: ["fail2ban", "fail2ban-service"]

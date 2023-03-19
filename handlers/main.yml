@@ -1,8 +1,10 @@
 ---
 
-- name: "restart fail2ban"
+- name: "Restart fail2ban"
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ fail2ban_service_name }}"
     state: "restarted"
-  when: "fail2ban_service_state == 'started'"
+  when:
+    - "fail2ban_service"
+    - "fail2ban_service_state == 'started'"

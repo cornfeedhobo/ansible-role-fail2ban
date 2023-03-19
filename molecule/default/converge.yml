@@ -1,0 +1,40 @@
+---
+- name: "Converge"
+  hosts: "all"
+  tasks:
+    - name: "Include cornfeedhobo.fail2ban"
+      ansible.builtin.include_role:
+        name: "cornfeedhobo.fail2ban"
+      vars:
+        fail2ban_service: false
+        fail2ban_filters:
+          test1:
+            failregex: ["one", "two", "three"]
+            ignoreregex: ["one", "two", "three"]
+          test2:
+            before: ["one", "two", "three"]
+            failregex: ["one", "two", "three"]
+          test3:
+            before: ["one", "two", "three"]
+            after: ["one", "two", "three"]
+            failregex: ["one", "two", "three"]
+          test4:
+            after: ["one", "two", "three"]
+            failregex: ["one", "two", "three"]
+          test5:
+            before: ["one", "two", "three"]
+            after: ["one", "two", "three"]
+            init:
+              foo: "bar"
+            failregex: ["one", "two", "three"]
+          test6:
+            init:
+              foo: "bar"
+            failregex: ["one", "two", "three"]
+        fail2ban_jails:
+          test1:
+            enabled: "true"
+            filter: "test1"
+            maxretry: 3
+            bantime: "24h"
+            findtime: "60m"
