@@ -5,15 +5,52 @@ fail2ban_packages: ["fail2ban"]
 fail2ban_package_state: "present"
 
 fail2ban_configure: true
+# @var fail2ban_filters:description: >
+# name:
+#   before: []
+#   after: []
+#   failregex: []
+#   ignoreregex: []
+# @end
+# @var fail2ban_filters:example: >
+# nginx-custom:
+#   init:
+#     block: >-
+#       \/?(<webmail>|<phpmyadmin>|<wordpress>|<php>|<misc>)[^,]*
+#     misc: >-
+#       (cgi-bin|mysqladmin|admin|aws|credentials|\.aws)
+#     php: >-
+#       (phpinfo|test\.php|vendor|laravel|\?XDEBUG_SESSION_START)
+#     phpmyadmin: >-
+#       (typo3/|xampp/|admin/|)(pma|(php)?[Mm]y[Aa]dmin)
+#     webmail: >-
+#       roundcube|(ext)?mail|horde|(v-?)?webmail
+#     wordpress: >-
+#       wp-(login|signup|admin)\.php
+#   failregex:
+#     - >-
+#       \"<HOST>\" \"(\w+|-)\" \"https?\:\/\/.+\" .+ (301|4\d\d)$
+#     - >-
+#       \"<HOST>\" \"(\w+|-)\" \"https?\:\/\/[\w\d\.]+<block>\"
+#     - >-
+#       \[error\] \d+#\d+: \*\d+ (\S+ )?\"\S+\" (failed|is not found) \(2\: No such file or directory\), client\: <HOST>\, server\: \S*\, request: \"(GET|POST|HEAD).*\"
+#   ignoreregex: []
+# @end
 fail2ban_filters: {}
-  # name:
-  #   before: []
-  #   after: []
-  #   failregex: []
-  #   ignoreregex: []
+
+# @var fail2ban_jails:description: >
+# Jail rules in the form of
+# name: {key: value, ...}
+# @end
+# @var fail2ban_jails:example: >
+# nginx-custom:
+#   enabled: "true"
+#   filter: "nginx-custom"
+#   bantime: "72h"
+#   findtime: "180m"
+#   maxretry: 3
+# @end
 fail2ban_jails: {}
-  # name:
-  #   key: value
 
 fail2ban_service: true
 fail2ban_service_name: "fail2ban"

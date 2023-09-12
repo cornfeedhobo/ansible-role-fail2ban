@@ -1,6 +1,7 @@
 ---
 
-- name: "Restart fail2ban"
+-
+  name: "Restart fail2ban"
   become: true
   ansible.builtin.service:
     name: "{{ fail2ban_service_name }}"

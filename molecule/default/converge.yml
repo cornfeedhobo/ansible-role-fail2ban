@@ -1,8 +1,10 @@
 ---
-- name: "Converge"
+-
+  name: "Converge"
   hosts: "all"
   tasks:
-    - name: "Include cornfeedhobo.fail2ban"
+    -
+      name: "Include cornfeedhobo.fail2ban"
       ansible.builtin.include_role:
         name: "cornfeedhobo.fail2ban"
       vars:

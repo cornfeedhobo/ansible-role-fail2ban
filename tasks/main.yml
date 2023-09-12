@@ -1,6 +1,7 @@
 ---
 
-- name: "Manage fail2ban package(s)"
+-
+  name: "Manage fail2ban package(s)"
   become: true
   ansible.builtin.package:
     name: "{{ item }}"
@@ -8,8 +9,8 @@
   loop: "{{ fail2ban_packages | list }}"
   tags: ["fail2ban", "fail2ban-install"]
 
-
-- name: "Configure filter.d/*.conf"
+-
+  name: "Configure filter.d/*.conf"
   become: true
   ansible.builtin.template:
     src: "filter.conf.j2"
@@ -22,8 +23,8 @@
   notify: ["Restart fail2ban"]
   tags: ["fail2ban", "fail2ban-configure"]
 
-
-- name: "Configure jail.d/*.conf"
+-
+  name: "Configure jail.d/*.conf"
   become: true
   ansible.builtin.template:
     src: "jail.conf.j2"
@@ -36,8 +37,8 @@
   notify: ["Restart fail2ban"]
   tags: ["fail2ban", "fail2ban-configure"]
 
-
-- name: "Manage fail2ban service"
+-
+  name: "Manage fail2ban service"
   become: true
   ansible.builtin.service:
     name: "{{ fail2ban_service_name }}"

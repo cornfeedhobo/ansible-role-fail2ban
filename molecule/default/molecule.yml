@@ -14,10 +14,6 @@ platforms:
     image: "quay.io/centos/centos:stream9"
     pre_build_image: false
   -
-    name: "fedora"
-    image: "registry.fedoraproject.org/fedora:rawhide"
-    pre_build_image: false
-  -
     name: "ubuntu"
     image: "ubuntu:latest"
     pre_build_image: false
